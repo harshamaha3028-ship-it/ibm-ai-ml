@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vehicle MPG Predictor & Profiler Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/style.css">
+  <link rel="stylesheet" href="/static/css/dashboard.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="/" class="nav-brand">
+        <div class="brand-icon">⚡</div>
+        <div>
+          <span class="brand-text">AutoProfiler AI</span>
+          <span class="brand-badge">Auto MPG ML</span>
+        </div>
+      </a>
+      <ul class="nav-links">
+        <li class="nav-item"><a href="/">Dashboard</a></li>
+        <li class="nav-item"><a href="/prediction.html" class="active">Predict MPG</a></li>
+        <li class="nav-item"><a href="/profiles.html">Vehicle Profiles</a></li>
+        <li class="nav-item"><a href="/analytics.html">Model Analytics</a></li>
+        <li class="nav-item"><a href="/history.html">Prediction History</a></li>
+        <li class="nav-item"><a href="/about.html">About & Docs</a></li>
+      </ul>
+      <div class="nav-status">
+        <span class="status-dot"></span>
+        <span>Studio Ready</span>
+      </div>
+    </div>
+  </nav>
+
+  <main class="main-content">
+    <div class="page-header">
+      <h1 class="page-title">Vehicle MPG Prediction & Analysis Studio</h1>
+      <p class="page-subtitle">Configure engineering attributes to evaluate estimated fuel economy, classify vehicle archetype, and inspect AI explainability attribution.</p>
+    </div>
+
+    <!-- Quick Preset Selectors -->
+    <div class="preset-pills">
+      <span style="font-size: 0.8rem; font-weight: 600; color: var(--text-muted); align-self: center; margin-right: 0.25rem;">Quick Presets:</span>
+      <button type="button" class="preset-pill" onclick="loadPreset('compact')">🚗 Economy Compact (4-Cyl)</button>
+      <button type="button" class="preset-pill" onclick="loadPreset('sedan')">🚙 Midsize Family Sedan (6-Cyl)</button>
+      <button type="button" class="preset-pill" onclick="loadPreset('v8')">🏎️ Full-Size Muscle (8-Cyl V8)</button>
+      <button type="button" class="preset-pill" onclick="loadPreset('euro')">🏎️ European Sport Hatch (4-Cyl)</button>
+    </div>
+
+    <div class="prediction-layout">
+      <!-- Input Form Column -->
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">⚙️ Vehicle Specifications</h2>
+          <span class="badge badge-cluster font-mono">Input Pipeline</span>
+        </div>
+
+        <form id="prediction-studio-form">
+          <div class="form-group">
+            <label class="form-label">Vehicle Name / Label (Optional)</label>
+            <input type="text" id="input-car-name" class="form-control" placeholder="e.g. Honda Civic Hatchback or Ford LTD" value="Custom Test Vehicle">
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label class="form-label">Cylinders</label>
+              <select id="input-cylinders" class="form-control" required>
+                <option value="3">3 Cylinders</option>
+                <option value="4" selected>4 Cylinders</option>
+                <option value="5">5 Cylinders</option>
+                <option value="6">6 Cylinders</option>
+                <option value="8">8 Cylinders</option>
+              </select>
+              <div class="form-hint">Combustion chambers</div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Displacement (cu.in.)</label>
+              <input type="number" id="input-displacement" class="form-control" value="120" min="40" max="600" step="1" required>
+              <div class="form-hint">Engine displacement (cubic inches)</div>
+            </div>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label class="form-label">Horsepower (HP)</label>
+              <input type="number" id="input-horsepower" class="form-control" value="85" min="30" max="400" step="1" required>
+              <div class="form-hint">Engine power output (BHP)</div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Curb Weight (lbs)</label>
+              <input type="number" id="input-weight" class="form-control" value="2350" min="1200" max="6500" step="25" required>
+              <div class="form-hint">Total vehicle weight in pounds</div>
+            </div>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label class="form-label">0-60 mph Acceleration (sec)</label>
+              <input type="number" id="input-acceleration" class="form-control" value="16.5" min="6.0" max="30.0" step="0.1" required>
+              <div class="form-hint">Time to reach 60 mph</div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Model Year (1970–1982)</label>
+              <input type="number" id="input-model-year" class="form-control" value="78" min="70" max="82" step="1" required>
+              <div class="form-hint">Two-digit year (70 to 82)</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Manufacturing Origin</label>
+            <select id="input-origin" class="form-control" required>
+              <option value="1">USA (North America)</option>
+              <option value="2">Europe</option>
+              <option value="3" selected>Japan</option>
+            </select>
+          </div>
+
+          <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+            <button type="submit" class="btn btn-primary" id="studio-submit-btn" style="flex: 1;">
+              ⚡ Run AI Regression & Profiling
+            </button>
+            <button type="button" class="btn btn-secondary" onclick="resetStudioForm()">
+              Reset
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Results Column -->
+      <div id="results-panel">
+        <!-- Hero Dial Card -->
+        <div class="result-hero">
+          <div style="font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); margin-bottom: 1rem;">
+            Predicted Fuel Efficiency
+          </div>
+
+          <div class="mpg-dial-wrapper">
+            <svg class="mpg-dial-svg" viewBox="0 0 160 160">
+              <circle class="mpg-dial-bg" cx="80" cy="80" r="70"></circle>
+              <circle class="mpg-dial-progress" id="mpg-dial-circle" cx="80" cy="80" r="70"></circle>
+            </svg>
+            <div class="mpg-dial-content">
+              <div class="mpg-dial-number" id="res-mpg-value">31.2</div>
+              <div class="mpg-dial-unit">Miles / Gallon</div>
+            </div>
+          </div>
+
+          <div style="display: flex; justify-content: center; gap: 0.75rem; align-items: center; margin-top: 0.5rem;">
+            <span class="badge badge-high" id="res-efficiency-badge" style="font-size: 0.85rem; padding: 0.35rem 0.85rem;">
+              High Efficiency
+            </span>
+            <span class="badge badge-cluster" id="res-profile-badge" style="font-size: 0.85rem; padding: 0.35rem 0.85rem;">
+              Lightweight Efficient
+            </span>
+          </div>
+        </div>
+
+        <!-- Vehicle Archetype & Centroid Delta -->
+        <div class="card" style="margin-bottom: 1.5rem;">
+          <div class="card-header">
+            <h3 class="card-title">🏷️ Vehicle Profile Archetype</h3>
+            <span class="badge badge-cluster font-mono" id="res-cluster-id-tag">Cluster 2</span>
+          </div>
+
+          <p style="font-size: 0.9rem; font-weight: 700; color: var(--text-primary);" id="res-archetype-name">
+            Lightweight Efficient
+          </p>
+
+          <ul class="archetype-bullets" id="res-archetype-bullets" style="margin-top: 0.75rem;">
+            <li>Low vehicle weight (~2306 lbs)</li>
+            <li>Modest horsepower output (~78.5 hp)</li>
+            <li>High fuel economy (~29.4 MPG)</li>
+          </ul>
+
+          <div style="margin-top: 1rem; padding-top: 0.75rem; border-top: 1px solid var(--border-subtle); display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; font-size: 0.8rem;">
+            <div>
+              <span style="color: var(--text-muted);">Weight vs Cluster:</span>
+              <strong id="delta-weight" class="font-mono text-emerald">-56 lbs</strong>
+            </div>
+            <div>
+              <span style="color: var(--text-muted);">MPG vs Cluster:</span>
+              <strong id="delta-mpg" class="font-mono text-emerald">+1.8 MPG</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- Prediction Explainability & Feature Drivers -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">🔍 Prediction Explainability</h3>
+            <span class="badge badge-secondary" style="font-size: 0.75rem;">Feature Drivers</span>
+          </div>
+          <p style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 1rem;">
+            Standardized coefficient attribution indicating characteristics that pushed fuel efficiency higher (+) or lower (-).
+          </p>
+
+          <div class="attribution-list" id="attribution-container">
+            <!-- Dynamic Feature Items -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="nav-container" style="justify-content: center;">
+      <p>© 2026 Automobile Efficiency Regressor & Vehicle Class Profiler • Explainable AI Architecture</p>
+    </div>
+  </footer>
+
+  <script src="/static/js/prediction.js"></script>
+</body>
+</html>

@@ -1,0 +1,314 @@
+{
+  "project_name": "Automobile Efficiency Regressor & Vehicle Class Profiler",
+  "best_regression_model": "Linear Regression",
+  "intercept": 23.608176100628935,
+  "model_comparison": {
+    "Linear Regression": {
+      "train_r2": 0.8555,
+      "cv_r2_mean": 0.8409,
+      "cv_r2_std": 0.0186,
+      "cv_mae_mean": 2.3742,
+      "cv_rmse_mean": 3.1212,
+      "test_r2": 0.8754,
+      "test_mae": 1.9578,
+      "test_mse": 6.6969,
+      "test_rmse": 2.5878,
+      "params": {}
+    },
+    "Ridge Regression": {
+      "train_r2": 0.8554,
+      "cv_r2_mean": 0.8406,
+      "cv_r2_std": 0.0183,
+      "cv_mae_mean": 2.3822,
+      "cv_rmse_mean": 3.1254,
+      "test_r2": 0.8756,
+      "test_mae": 1.9439,
+      "test_mse": 6.6908,
+      "test_rmse": 2.5867,
+      "params": {
+        "alpha": 0.15998587196060574
+      }
+    },
+    "Lasso Regression": {
+      "train_r2": 0.8555,
+      "cv_r2_mean": 0.8405,
+      "cv_r2_std": 0.017,
+      "cv_mae_mean": 2.3783,
+      "cv_rmse_mean": 3.1277,
+      "test_r2": 0.8756,
+      "test_mae": 1.9524,
+      "test_mse": 6.6892,
+      "test_rmse": 2.5864,
+      "params": {
+        "alpha": 0.001
+      }
+    },
+    "ElasticNet Regression": {
+      "train_r2": 0.8554,
+      "cv_r2_mean": 0.8403,
+      "cv_r2_std": 0.0178,
+      "cv_mae_mean": 2.3884,
+      "cv_rmse_mean": 3.1287,
+      "test_r2": 0.8756,
+      "test_mae": 1.9448,
+      "test_mse": 6.6874,
+      "test_rmse": 2.586,
+      "params": {
+        "alpha": 0.001,
+        "l1_ratio": 0.7
+      }
+    }
+  },
+  "feature_names": [
+    "cylinders",
+    "displacement",
+    "horsepower",
+    "weight",
+    "acceleration",
+    "model_year",
+    "power_to_weight",
+    "displacement_per_cylinder",
+    "weight_per_cylinder",
+    "vehicle_age",
+    "origin_usa",
+    "origin_europe",
+    "origin_japan"
+  ],
+  "feature_impacts": [
+    {
+      "feature": "cylinders",
+      "coefficient": -11.2366,
+      "abs_impact": 11.2366,
+      "direction": "Decreases MPG"
+    },
+    {
+      "feature": "displacement",
+      "coefficient": 10.252,
+      "abs_impact": 10.252,
+      "direction": "Increases MPG"
+    },
+    {
+      "feature": "displacement_per_cylinder",
+      "coefficient": -5.1917,
+      "abs_impact": 5.1917,
+      "direction": "Decreases MPG"
+    },
+    {
+      "feature": "weight_per_cylinder",
+      "coefficient": -2.6068,
+      "abs_impact": 2.6068,
+      "direction": "Decreases MPG"
+    },
+    {
+      "feature": "horsepower",
+      "coefficient": 2.1361,
+      "abs_impact": 2.1361,
+      "direction": "Increases MPG"
+    },
+    {
+      "feature": "weight",
+      "coefficient": -1.7807,
+      "abs_impact": 1.7807,
+      "direction": "Decreases MPG"
+    },
+    {
+      "feature": "power_to_weight",
+      "coefficient": -1.6463,
+      "abs_impact": 1.6463,
+      "direction": "Decreases MPG"
+    },
+    {
+      "feature": "model_year",
+      "coefficient": 1.5714,
+      "abs_impact": 1.5714,
+      "direction": "Increases MPG"
+    },
+    {
+      "feature": "vehicle_age",
+      "coefficient": -1.5714,
+      "abs_impact": 1.5714,
+      "direction": "Decreases MPG"
+    },
+    {
+      "feature": "origin_usa",
+      "coefficient": -0.3225,
+      "abs_impact": 0.3225,
+      "direction": "Decreases MPG"
+    },
+    {
+      "feature": "origin_europe",
+      "coefficient": 0.2836,
+      "abs_impact": 0.2836,
+      "direction": "Increases MPG"
+    },
+    {
+      "feature": "acceleration",
+      "coefficient": -0.1928,
+      "abs_impact": 0.1928,
+      "direction": "Decreases MPG"
+    },
+    {
+      "feature": "origin_japan",
+      "coefficient": 0.1204,
+      "abs_impact": 0.1204,
+      "direction": "Increases MPG"
+    }
+  ],
+  "efficiency_thresholds": {
+    "low_threshold": 19.0,
+    "high_threshold": 27.0,
+    "categories": {
+      "low": "<= 19.0 MPG (Bottom 33%)",
+      "moderate": "19.0 - 27.0 MPG (Middle 34%)",
+      "high": "> 27.0 MPG (Top 33%)"
+    }
+  },
+  "dataset_statistics": {
+    "mpg": {
+      "min": 9.0,
+      "max": 46.6,
+      "mean": 23.514572864321607,
+      "median": 23.0,
+      "std": 7.815984312565782,
+      "count": 398
+    },
+    "feature_medians": {
+      "cylinders": 4.0,
+      "displacement": 148.5,
+      "horsepower": 93.5,
+      "weight": 2803.5,
+      "acceleration": 15.5,
+      "model_year": 76.0
+    }
+  },
+  "reference_year": 82,
+  "training_samples": 318,
+  "test_samples": 80,
+  "clustering": {
+    "num_clusters": 3,
+    "features_used": [
+      "cylinders",
+      "displacement",
+      "horsepower",
+      "weight",
+      "acceleration",
+      "mpg"
+    ],
+    "elbow_inertias": {
+      "k=2": 944.29,
+      "k=3": 609.27,
+      "k=4": 492.52,
+      "k=5": 423.32,
+      "k=6": 366.48,
+      "k=7": 333.09,
+      "k=8": 301.5
+    },
+    "silhouette_scores": {
+      "k=2": 0.546,
+      "k=3": 0.4401,
+      "k=4": 0.3794,
+      "k=5": 0.3699,
+      "k=6": 0.333,
+      "k=7": 0.3247,
+      "k=8": 0.295
+    },
+    "pca_explained_variance_ratio": [
+      0.7969,
+      0.1215
+    ],
+    "cluster_profiles": {
+      "0": {
+        "cluster_id": 0,
+        "sample_count": 94,
+        "percentage_of_fleet": 23.6,
+        "average_mpg": 19.83,
+        "average_weight": 3222.4,
+        "average_horsepower": 101.7,
+        "average_displacement": 218.1,
+        "average_cylinders": 6.0,
+        "average_acceleration": 16.4,
+        "pca_centroid": [
+          0.454,
+          0.559
+        ],
+        "profile_name": "Mid-Heavy Cruiser",
+        "key_characteristics": [
+          "Substantial vehicle weight (~3222.4 lbs)",
+          "Modest horsepower (~101.7 hp)",
+          "Lower fuel economy (~19.83 MPG)",
+          "Typical engine: 6 cylinders, 218.1 cu.in."
+        ]
+      },
+      "1": {
+        "cluster_id": 1,
+        "sample_count": 97,
+        "percentage_of_fleet": 24.4,
+        "average_mpg": 14.53,
+        "average_weight": 4144.0,
+        "average_horsepower": 161.8,
+        "average_displacement": 348.0,
+        "average_cylinders": 8.0,
+        "average_acceleration": 12.64,
+        "pca_centroid": [
+          3.319,
+          -0.14
+        ],
+        "profile_name": "Heavy High-Power",
+        "key_characteristics": [
+          "Substantial vehicle weight (~4144.0 lbs)",
+          "High horsepower output (~161.8 hp)",
+          "Lower fuel economy (~14.53 MPG)",
+          "Typical engine: 8 cylinders, 348.0 cu.in."
+        ]
+      },
+      "2": {
+        "cluster_id": 2,
+        "sample_count": 207,
+        "percentage_of_fleet": 52.0,
+        "average_mpg": 29.4,
+        "average_weight": 2306.1,
+        "average_horsepower": 78.5,
+        "average_displacement": 109.8,
+        "average_cylinders": 4.0,
+        "average_acceleration": 16.56,
+        "pca_centroid": [
+          -1.761,
+          -0.188
+        ],
+        "profile_name": "Lightweight Efficient",
+        "key_characteristics": [
+          "Low vehicle weight (~2306.1 lbs)",
+          "Modest horsepower (~78.5 hp)",
+          "High fuel efficiency (~29.4 MPG)",
+          "Typical engine: 4 cylinders, 109.8 cu.in."
+        ]
+      }
+    },
+    "cluster_centroids_scaled": [
+      [
+        0.3459833417086944,
+        0.23689416359787754,
+        -0.06773971698185355,
+        0.2979518705541167,
+        0.3008900382090168,
+        -0.4724445262634268
+      ],
+      [
+        1.4860545991223597,
+        1.4845071510716288,
+        1.5062407809487868,
+        1.3875337412021667,
+        -1.0626786807159532,
+        -1.1511047641236705
+      ],
+      [
+        -0.853476957659354,
+        -0.8032137441166596,
+        -0.6750619437475265,
+        -0.7854987861289716,
+        0.3613341470425109,
+        0.7539466067089771
+      ]
+    ]
+  }
+}

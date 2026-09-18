@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vehicle Profiles & Cluster Explorer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/style.css">
+  <link rel="stylesheet" href="/static/css/dashboard.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="/" class="nav-brand">
+        <div class="brand-icon">⚡</div>
+        <div>
+          <span class="brand-text">AutoProfiler AI</span>
+          <span class="brand-badge">Auto MPG ML</span>
+        </div>
+      </a>
+      <ul class="nav-links">
+        <li class="nav-item"><a href="/">Dashboard</a></li>
+        <li class="nav-item"><a href="/prediction.html">Predict MPG</a></li>
+        <li class="nav-item"><a href="/profiles.html" class="active">Vehicle Profiles</a></li>
+        <li class="nav-item"><a href="/analytics.html">Model Analytics</a></li>
+        <li class="nav-item"><a href="/history.html">Prediction History</a></li>
+        <li class="nav-item"><a href="/about.html">About & Docs</a></li>
+      </ul>
+      <div class="nav-status">
+        <span class="status-dot"></span>
+        <span>Unsupervised ML</span>
+      </div>
+    </div>
+  </nav>
+
+  <main class="main-content">
+    <div class="page-header">
+      <h1 class="page-title">Unsupervised Vehicle Profiling & Clustering</h1>
+      <p class="page-subtitle">Automatic vehicle categorization into distinct physical and performance archetypes using StandardScaler, KMeans (k=3), and 2D Principal Component Analysis (PCA).</p>
+    </div>
+
+    <!-- Cluster Archetype Cards -->
+    <div class="archetype-grid" id="archetypes-container">
+      <!-- Dynamic archetype cards loaded via JS -->
+      <div class="card" style="text-align: center; padding: 2rem; color: var(--text-muted); grid-column: 1 / -1;">
+        Loading vehicle cluster archetypes...
+      </div>
+    </div>
+
+    <!-- PCA 2D Cluster Space & Attribute Comparison Charts -->
+    <div class="dashboard-grid">
+      <!-- 2D PCA Visual Map -->
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">🗺️ 2D PCA Cluster Map</h2>
+          <span class="badge badge-cluster font-mono" id="pca-variance-badge">91.8% Variance</span>
+        </div>
+        <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">
+          High-dimensional vehicle specs projected into 2D Principal Component space. Crosses represent cluster centroids.
+        </p>
+        <div class="chart-container" style="min-height: 320px;">
+          <canvas id="pcaScatterChart"></canvas>
+        </div>
+      </div>
+
+      <!-- Centroids Comparison Bar Chart -->
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">📊 Cluster Centroid Comparison</h2>
+          <span class="badge badge-secondary">Normalized Metrics</span>
+        </div>
+        <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">
+          Relative physical and performance characteristics across discovered vehicle archetypes.
+        </p>
+        <div class="chart-container" style="min-height: 320px;">
+          <canvas id="centroidComparisonChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Optimal K Selection Analysis -->
+    <div class="card" style="margin-top: 1.5rem;">
+      <div class="card-header">
+        <h2 class="card-title">🔍 Cluster Optimization & Model Validation</h2>
+        <span class="badge badge-cluster">Elbow & Silhouette Metrics</span>
+      </div>
+      <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">
+        Mathematical justification for selecting $k=3$ clusters based on Within-Cluster Sum of Squares (Inertia) and Mean Silhouette Coefficient.
+      </p>
+
+      <div class="dashboard-grid" style="margin-bottom: 0;">
+        <div class="chart-container" style="min-height: 240px;">
+          <canvas id="elbowChart"></canvas>
+        </div>
+        <div class="chart-container" style="min-height: 240px;">
+          <canvas id="silhouetteChart"></canvas>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="nav-container" style="justify-content: center;">
+      <p>© 2026 Automobile Efficiency Regressor & Vehicle Class Profiler • KMeans & PCA Clustering</p>
+    </div>
+  </footer>
+
+  <script src="/static/js/profiles.js"></script>
+</body>
+</html>
