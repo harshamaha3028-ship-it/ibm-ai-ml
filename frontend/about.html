@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About & Documentation - Automobile AI Platform</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/style.css">
+  <link rel="stylesheet" href="/static/css/dashboard.css">
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="/" class="nav-brand">
+        <div class="brand-icon">⚡</div>
+        <div>
+          <span class="brand-text">AutoProfiler AI</span>
+          <span class="brand-badge">Auto MPG ML</span>
+        </div>
+      </a>
+      <ul class="nav-links">
+        <li class="nav-item"><a href="/">Dashboard</a></li>
+        <li class="nav-item"><a href="/prediction.html">Predict MPG</a></li>
+        <li class="nav-item"><a href="/profiles.html">Vehicle Profiles</a></li>
+        <li class="nav-item"><a href="/analytics.html">Model Analytics</a></li>
+        <li class="nav-item"><a href="/history.html">Prediction History</a></li>
+        <li class="nav-item"><a href="/about.html" class="active">About & Docs</a></li>
+      </ul>
+      <div class="nav-status">
+        <span class="status-dot"></span>
+        <span>Documentation</span>
+      </div>
+    </div>
+  </nav>
+
+  <main class="main-content">
+    <div class="page-header">
+      <h1 class="page-title">Architecture, Methodology & Documentation</h1>
+      <p class="page-subtitle">Deep dive into machine learning pipelines, unsupervised vehicle profiling, database persistence, and REST API contracts.</p>
+    </div>
+
+    <!-- Architecture Overview Card -->
+    <div class="card" style="margin-bottom: 2rem;">
+      <div class="card-header">
+        <h2 class="card-title">📐 High-Level System Architecture</h2>
+        <span class="badge badge-cluster font-mono">End-to-End Pipeline</span>
+      </div>
+
+      <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 1.5rem; line-height: 1.6;">
+        The system addresses two complementary machine learning challenges: predicting continuous fuel economy (<strong>Miles Per Gallon</strong>) through supervised regularized regression, and discovering vehicle class archetypes through unsupervised geometric clustering.
+      </p>
+
+      <div style="background-color: var(--bg-input); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--border-color); font-family: var(--font-mono); font-size: 0.82rem; color: var(--text-secondary); line-height: 1.7; overflow-x: auto;">
+        Vehicle Specs (Cylinders, Displacement, HP, Weight, Acceleration, Year, Origin)<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;│<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;├──► [Preprocess & Feature Engineering] ──► [Regularized Regression (Ridge/Lasso)] ──► <strong>Predicted MPG</strong><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;│<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;├──► [StandardScaler + 2D PCA] ──► [KMeans Clustering (k=3)] ──► <strong>Vehicle Archetype Profile</strong><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;│<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;└──► [Explainability Engine + Database Persistence] ──► <strong>Dashboard & Audit Trail</strong>
+      </div>
+    </div>
+
+    <!-- ML Methodology Grid -->
+    <div class="dashboard-grid">
+      <!-- Supervised Regression -->
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">🏎️ Supervised Regression</h3>
+          <span class="badge badge-high">R² ≈ 0.875</span>
+        </div>
+        <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">
+          To ensure reliable generalization and mitigate collinearity between engine displacement, cylinder count, and vehicle mass, four regression formulations are benchmarked using 5-Fold Cross Validation:
+        </p>
+        <ul class="archetype-bullets">
+          <li><strong>Linear Regression (OLS)</strong>: Baseline unpenalized ordinary least squares.</li>
+          <li><strong>Ridge Regression (L2)</strong>: Penalizes $||w||_2^2$ to shrink correlated coefficients and stabilize variance.</li>
+          <li><strong>Lasso Regression (L1)</strong>: Enforces sparsity via $||w||_1$ penalty for feature selection.</li>
+          <li><strong>ElasticNet</strong>: Convex combination of L1 and L2 penalties ($L_{net} = r L_1 + (1-r) L_2$).</li>
+        </ul>
+      </div>
+
+      <!-- Unsupervised Profiling -->
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">🏷️ Vehicle Profiling / Clustering</h3>
+          <span class="badge badge-cluster">KMeans + PCA</span>
+        </div>
+        <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">
+          Vehicles are segmented based on their multidimensional physical and efficiency footprint:
+        </p>
+        <ul class="archetype-bullets">
+          <li><strong>Optimal Cluster Selection</strong>: Confirmed via Elbow Curve (Inertia minimization) and Silhouette Analysis.</li>
+          <li><strong>2D PCA Projection</strong>: Preserves ~91.8% of feature variance for interactive scatter map visual inspection.</li>
+          <li><strong>Dynamic Archetype Derivation</strong>: Labels are dynamically assigned from cluster centroid statistics compared to dataset medians.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- API Reference Card -->
+    <div class="card" style="margin-top: 2rem;">
+      <div class="card-header">
+        <h2 class="card-title">🔌 REST API Specification</h2>
+        <a href="/docs" target="_blank" class="btn btn-secondary btn-sm">Interactive Swagger UI →</a>
+      </div>
+
+      <div class="table-responsive">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Method</th>
+              <th>Endpoint</th>
+              <th>Description</th>
+              <th>Payload / Response</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="badge badge-high font-mono">GET</span></td>
+              <td class="font-mono">/health</td>
+              <td>Service health check and database engine status</td>
+              <td class="font-mono">{"status": "healthy", ...}</td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-cluster font-mono">POST</span></td>
+              <td class="font-mono">/predict</td>
+              <td>Standalone MPG regression and feature coefficients</td>
+              <td class="font-mono">VehicleInput ➔ PredictionResponse</td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-cluster font-mono">POST</span></td>
+              <td class="font-mono">/profile</td>
+              <td>Standalone vehicle archetype classification</td>
+              <td class="font-mono">VehicleInput ➔ ProfileResponse</td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-cluster font-mono">POST</span></td>
+              <td class="font-mono">/analyze</td>
+              <td>Unified analysis: prediction, profiling, explainability, and DB persistence</td>
+              <td class="font-mono">VehicleInput ➔ AnalysisResponse</td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-high font-mono">GET</span></td>
+              <td class="font-mono">/predictions</td>
+              <td>Paginated historical predictions with search, filter, and sorting</td>
+              <td class="font-mono">?page=1&limit=20&search=...</td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-high font-mono">GET</span></td>
+              <td class="font-mono">/statistics</td>
+              <td>Dashboard summary KPIs and fleet distribution</td>
+              <td class="font-mono">{"dataset_summary": ..., ...}</td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-high font-mono">GET</span></td>
+              <td class="font-mono">/clusters</td>
+              <td>Fleet cluster profiles, centroids, and PCA coordinates</td>
+              <td class="font-mono">{"clusters": [...], ...}</td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-high font-mono">GET</span></td>
+              <td class="font-mono">/model-info</td>
+              <td>Regression model benchmark metrics and coefficients</td>
+              <td class="font-mono">{"models_comparison": ..., ...}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="nav-container" style="justify-content: center;">
+      <p>© 2026 Automobile Efficiency Regressor & Vehicle Class Profiler • Undergraduate AI/ML Project</p>
+    </div>
+  </footer>
+</body>
+</html>

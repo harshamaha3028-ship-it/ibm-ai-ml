@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Model Analytics & Regression Diagnostics</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/style.css">
+  <link rel="stylesheet" href="/static/css/dashboard.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="/" class="nav-brand">
+        <div class="brand-icon">⚡</div>
+        <div>
+          <span class="brand-text">AutoProfiler AI</span>
+          <span class="brand-badge">Auto MPG ML</span>
+        </div>
+      </a>
+      <ul class="nav-links">
+        <li class="nav-item"><a href="/">Dashboard</a></li>
+        <li class="nav-item"><a href="/prediction.html">Predict MPG</a></li>
+        <li class="nav-item"><a href="/profiles.html">Vehicle Profiles</a></li>
+        <li class="nav-item"><a href="/analytics.html" class="active">Model Analytics</a></li>
+        <li class="nav-item"><a href="/history.html">Prediction History</a></li>
+        <li class="nav-item"><a href="/about.html">About & Docs</a></li>
+      </ul>
+      <div class="nav-status">
+        <span class="status-dot"></span>
+        <span>Diagnostics</span>
+      </div>
+    </div>
+  </nav>
+
+  <main class="main-content">
+    <div class="page-header">
+      <h1 class="page-title">Regression Model Analytics & Performance Diagnostics</h1>
+      <p class="page-subtitle">Comparative evaluation across Linear, Ridge, Lasso, and ElasticNet models with 5-Fold Cross-Validation, residual analysis, and standardized coefficient impacts.</p>
+    </div>
+
+    <!-- Model Comparison Table Card -->
+    <div class="card" style="margin-bottom: 2rem;">
+      <div class="card-header">
+        <h2 class="card-title">🏆 Supervised Regression Benchmark Leaderboard</h2>
+        <span class="badge badge-cluster font-mono">5-Fold CV + 20% Test Holdout</span>
+      </div>
+
+      <div class="table-responsive">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Model Architecture</th>
+              <th>Train R²</th>
+              <th>5-Fold CV R²</th>
+              <th>Test R² Score</th>
+              <th>Test RMSE</th>
+              <th>Test MAE</th>
+              <th>Tuned Regularization (α, l1)</th>
+            </tr>
+          </thead>
+          <tbody id="models-table-tbody">
+            <tr>
+              <td colspan="7" class="text-center" style="color: var(--text-muted); padding: 2rem;">Loading model benchmark results...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Rationale & Feature Importance Grid -->
+    <div class="dashboard-grid">
+      <!-- Feature Impact Coefficients Chart -->
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">📈 Standardized Feature Coefficients</h2>
+          <span class="badge badge-secondary">Impact on MPG</span>
+        </div>
+        <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">
+          Green indicates positive influence on fuel efficiency; red indicates negative drag on MPG.
+        </p>
+        <div class="chart-container" style="min-height: 320px;">
+          <canvas id="featureImpactChart"></canvas>
+        </div>
+      </div>
+
+      <!-- Best Model Selection Rationale -->
+      <div class="card" style="display: flex; flex-direction: column; justify-content: space-between;">
+        <div>
+          <div class="card-header">
+            <h2 class="card-title">🎯 Model Selection Rationale</h2>
+            <span class="badge badge-high" id="badge-best-model-tag">Linear Regression</span>
+          </div>
+
+          <div style="background-color: var(--bg-input); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--border-subtle); margin-bottom: 1rem;">
+            <div style="font-size: 0.85rem; font-weight: 700; color: var(--accent-cyan); margin-bottom: 0.35rem;">
+              Generalization & Explainability Priority
+            </div>
+            <p style="font-size: 0.82rem; color: var(--text-secondary); line-height: 1.5;">
+              The regression pipeline was tuned using 5-fold cross-validation with L1 (Lasso) and L2 (Ridge) penalties. Model selection balances high test explained variance (R² ≈ 0.875) with minimal mean squared error and direct transparent coefficient interpretability.
+            </p>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1rem;">
+            <div style="background: var(--bg-input); padding: 0.85rem; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
+              <div style="font-size: 0.75rem; color: var(--text-muted);">Test R² Accuracy</div>
+              <div style="font-size: 1.4rem; font-weight: 800; color: var(--accent-emerald);" class="font-mono" id="best-test-r2">0.8754</div>
+            </div>
+            <div style="background: var(--bg-input); padding: 0.85rem; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
+              <div style="font-size: 0.75rem; color: var(--text-muted);">Test Error (RMSE)</div>
+              <div style="font-size: 1.4rem; font-weight: 800; color: var(--text-primary);" class="font-mono" id="best-test-rmse">2.58 MPG</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="font-size: 0.78rem; color: var(--text-muted); border-top: 1px solid var(--border-subtle); padding-top: 0.75rem;">
+          Data Leakage Prevention: Preprocessing transformers and scalers fitted strictly on 80% training split.
+        </div>
+      </div>
+    </div>
+
+    <!-- Diagnostic Plots Gallery -->
+    <div class="card" style="margin-top: 2rem;">
+      <div class="card-header">
+        <h2 class="card-title">🔬 Diagnostic Plots & Residual Analysis</h2>
+        <span class="badge badge-cluster">Matplotlib / Seaborn Visualizations</span>
+      </div>
+
+      <div class="dashboard-grid" style="margin-bottom: 0;">
+        <div style="text-align: center;">
+          <h4 style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 0.75rem;">Actual vs. Predicted MPG Fit</h4>
+          <img src="/static/assets/plots/actual_vs_predicted.png" alt="Actual vs Predicted MPG" style="width: 100%; max-width: 500px; border-radius: var(--radius-md); border: 1px solid var(--border-color); box-shadow: var(--shadow-sm);">
+        </div>
+        <div style="text-align: center;">
+          <h4 style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 0.75rem;">Residuals vs. Fitted Values</h4>
+          <img src="/static/assets/plots/residual_plot.png" alt="Residual Plot" style="width: 100%; max-width: 500px; border-radius: var(--radius-md); border: 1px solid var(--border-color); box-shadow: var(--shadow-sm);">
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="nav-container" style="justify-content: center;">
+      <p>© 2026 Automobile Efficiency Regressor & Vehicle Class Profiler • Regularized Regression</p>
+    </div>
+  </footer>
+
+  <script src="/static/js/analytics.js"></script>
+</body>
+</html>

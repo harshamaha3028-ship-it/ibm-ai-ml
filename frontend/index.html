@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Automobile Efficiency Regressor & Vehicle Class Profiler</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/style.css">
+  <link rel="stylesheet" href="/static/css/dashboard.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="/" class="nav-brand">
+        <div class="brand-icon">⚡</div>
+        <div>
+          <span class="brand-text">AutoProfiler AI</span>
+          <span class="brand-badge">Auto MPG ML</span>
+        </div>
+      </a>
+      <ul class="nav-links">
+        <li class="nav-item"><a href="/" class="active">Dashboard</a></li>
+        <li class="nav-item"><a href="/prediction.html">Predict MPG</a></li>
+        <li class="nav-item"><a href="/profiles.html">Vehicle Profiles</a></li>
+        <li class="nav-item"><a href="/analytics.html">Model Analytics</a></li>
+        <li class="nav-item"><a href="/history.html">Prediction History</a></li>
+        <li class="nav-item"><a href="/about.html">About & Docs</a></li>
+      </ul>
+      <div class="nav-status">
+        <span class="status-dot" id="system-status-dot"></span>
+        <span id="system-status-text">API Online</span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Dashboard Content -->
+  <main class="main-content">
+    <div class="page-header">
+      <h1 class="page-title">Automobile Efficiency & Vehicle Profiling Platform</h1>
+      <p class="page-subtitle">Production-grade AI/ML system combining regularized regression for MPG estimation and unsupervised KMeans clustering for vehicle archetype discovery.</p>
+    </div>
+
+    <!-- KPI Summary Grid -->
+    <div class="kpi-grid">
+      <div class="kpi-card emerald">
+        <div class="kpi-icon-wrap">⛽</div>
+        <div class="kpi-content">
+          <div class="kpi-label">Dataset Mean MPG</div>
+          <div class="kpi-value" id="kpi-avg-mpg">23.5</div>
+          <div class="kpi-meta">Auto MPG benchmark fleet</div>
+        </div>
+      </div>
+      <div class="kpi-card cyan">
+        <div class="kpi-icon-wrap">🎯</div>
+        <div class="kpi-content">
+          <div class="kpi-label">Best Regression R²</div>
+          <div class="kpi-value" id="kpi-best-r2">0.875</div>
+          <div class="kpi-meta" id="kpi-best-model">Regularized Model</div>
+        </div>
+      </div>
+      <div class="kpi-card amber">
+        <div class="kpi-icon-wrap">🏷️</div>
+        <div class="kpi-content">
+          <div class="kpi-label">Vehicle Clusters</div>
+          <div class="kpi-value" id="kpi-clusters-count">3</div>
+          <div class="kpi-meta">Archetypes discovered</div>
+        </div>
+      </div>
+      <div class="kpi-card indigo">
+        <div class="kpi-icon-wrap">📊</div>
+        <div class="kpi-content">
+          <div class="kpi-label">Predictions Logged</div>
+          <div class="kpi-value" id="kpi-predictions-count">0</div>
+          <div class="kpi-meta">Database records stored</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Dashboard Grid -->
+    <div class="dashboard-grid">
+      <!-- Quick Vehicle Estimator -->
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">🚀 Quick Vehicle MPG Estimator</h2>
+          <a href="/prediction.html" class="btn btn-secondary btn-sm">Full Studio →</a>
+        </div>
+        <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">
+          Enter fundamental vehicle specifications to generate instant MPG and archetype profile.
+        </p>
+
+        <form id="quick-predict-form">
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label class="form-label">Cylinders</label>
+              <select id="quick-cylinders" class="form-control" required>
+                <option value="4">4 Cylinders (Economy)</option>
+                <option value="6">6 Cylinders (Midsize)</option>
+                <option value="8">8 Cylinders (V8 Heavy)</option>
+                <option value="3">3 Cylinders (Ultra-compact)</option>
+                <option value="5">5 Cylinders</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Curb Weight (lbs)</label>
+              <input type="number" id="quick-weight" class="form-control" value="2300" min="1500" max="6000" step="50" required>
+            </div>
+          </div>
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label class="form-label">Horsepower (hp)</label>
+              <input type="number" id="quick-hp" class="form-control" value="85" min="40" max="300" step="5" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Displacement (cu.in.)</label>
+              <input type="number" id="quick-disp" class="form-control" value="120" min="50" max="500" step="5" required>
+            </div>
+          </div>
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label class="form-label">Model Year (1970–1982)</label>
+              <input type="number" id="quick-year" class="form-control" value="78" min="70" max="82" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Origin</label>
+              <select id="quick-origin" class="form-control" required>
+                <option value="USA">USA</option>
+                <option value="Japan">Japan</option>
+                <option value="Europe">Europe</option>
+              </select>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 0.5rem;" id="quick-btn">
+            ⚡ Analyze Vehicle Specifications
+          </button>
+        </form>
+
+        <!-- Quick Result Area -->
+        <div id="quick-result" style="display: none; margin-top: 1.25rem; padding: 1rem; background: var(--bg-input); border-radius: var(--radius-md); border: 1px solid var(--border-color);">
+          <div style="display: flex; align-items: center; justify-content: space-between;">
+            <div>
+              <div style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase;">Predicted Efficiency</div>
+              <div style="font-size: 1.6rem; font-weight: 800; color: var(--text-primary);" class="font-mono">
+                <span id="quick-res-mpg">--</span> <span style="font-size: 0.9rem; color: var(--text-muted);">MPG</span>
+              </div>
+            </div>
+            <div style="text-align: right;">
+              <span class="badge badge-high" id="quick-res-badge">High Efficiency</span>
+              <div style="font-size: 0.8rem; color: var(--accent-cyan); font-weight: 600; margin-top: 0.35rem;" id="quick-res-profile">
+                Lightweight Efficient
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Fleet Distribution Chart -->
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">📊 Fleet Archetype Distribution</h2>
+          <span class="badge badge-cluster">KMeans k=3</span>
+        </div>
+        <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.75rem;">
+          Breakdown of vehicle categories automatically grouped by physical and performance attributes.
+        </p>
+        <div class="chart-container">
+          <canvas id="clusterDistChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Secondary Row: Model Comparison Chart & Recent Activity -->
+    <div class="dashboard-grid">
+      <!-- Model Leaderboard Chart -->
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">🏆 Regression Models Benchmark</h2>
+          <a href="/analytics.html" class="btn btn-secondary btn-sm">Deep Analytics →</a>
+        </div>
+        <div class="chart-container">
+          <canvas id="modelLeaderboardChart"></canvas>
+        </div>
+      </div>
+
+      <!-- Recent Predictions Table -->
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">🕒 Recent Vehicle Analyses</h2>
+          <a href="/history.html" class="btn btn-secondary btn-sm">View All Logs →</a>
+        </div>
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Specs</th>
+                <th>Predicted</th>
+                <th>Category</th>
+                <th>Profile</th>
+              </tr>
+            </thead>
+            <tbody id="recent-predictions-tbody">
+              <tr>
+                <td colspan="4" class="text-center" style="color: var(--text-muted); padding: 2rem;">Loading activity...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="nav-container" style="justify-content: center;">
+      <p>© 2026 Automobile Efficiency Regressor & Vehicle Class Profiler • Built with FastAPI, Scikit-learn, and MySQL</p>
+    </div>
+  </footer>
+
+  <script src="/static/js/dashboard.js"></script>
+</body>
+</html>

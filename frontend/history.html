@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prediction History & Audit Log</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/style.css">
+  <link rel="stylesheet" href="/static/css/dashboard.css">
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="/" class="nav-brand">
+        <div class="brand-icon">⚡</div>
+        <div>
+          <span class="brand-text">AutoProfiler AI</span>
+          <span class="brand-badge">Auto MPG ML</span>
+        </div>
+      </a>
+      <ul class="nav-links">
+        <li class="nav-item"><a href="/">Dashboard</a></li>
+        <li class="nav-item"><a href="/prediction.html">Predict MPG</a></li>
+        <li class="nav-item"><a href="/profiles.html">Vehicle Profiles</a></li>
+        <li class="nav-item"><a href="/analytics.html">Model Analytics</a></li>
+        <li class="nav-item"><a href="/history.html" class="active">Prediction History</a></li>
+        <li class="nav-item"><a href="/about.html">About & Docs</a></li>
+      </ul>
+      <div class="nav-status">
+        <span class="status-dot"></span>
+        <span>Audit Trail</span>
+      </div>
+    </div>
+  </nav>
+
+  <main class="main-content">
+    <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem;">
+      <div>
+        <h1 class="page-title">Vehicle Analysis Audit & Prediction History</h1>
+        <p class="page-subtitle">Inspect, filter, sort, and export historical vehicle evaluations stored in the database.</p>
+      </div>
+      <div style="display: flex; gap: 0.5rem;">
+        <button class="btn btn-secondary btn-sm" onclick="exportData('csv')">📥 Export CSV</button>
+        <button class="btn btn-secondary btn-sm" onclick="exportData('json')">📥 Export JSON</button>
+        <button class="btn btn-danger btn-sm" onclick="confirmClearHistory()">🗑️ Clear History</button>
+      </div>
+    </div>
+
+    <!-- Filter Bar Card -->
+    <div class="card" style="margin-bottom: 1.5rem; padding: 1.25rem;">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; align-items: flex-end;">
+        <div>
+          <label class="form-label">Search Query</label>
+          <input type="text" id="filter-search" class="form-control" placeholder="Search profile, origin, etc...">
+        </div>
+        <div>
+          <label class="form-label">Efficiency Category</label>
+          <select id="filter-efficiency" class="form-control">
+            <option value="">All Categories</option>
+            <option value="High Efficiency">High Efficiency</option>
+            <option value="Moderate Efficiency">Moderate Efficiency</option>
+            <option value="Low Efficiency">Low Efficiency</option>
+          </select>
+        </div>
+        <div>
+          <label class="form-label">Vehicle Profile</label>
+          <select id="filter-profile" class="form-control">
+            <option value="">All Profiles</option>
+            <option value="Lightweight Efficient">Lightweight Efficient</option>
+            <option value="Mid-Heavy Cruiser">Mid-Heavy Cruiser</option>
+            <option value="Heavy High-Power">Heavy High-Power</option>
+          </select>
+        </div>
+        <div>
+          <label class="form-label">Sort By</label>
+          <select id="filter-sort" class="form-control">
+            <option value="id">Latest Added (ID)</option>
+            <option value="predicted_mpg">Predicted MPG</option>
+            <option value="weight">Curb Weight</option>
+            <option value="horsepower">Horsepower</option>
+          </select>
+        </div>
+        <div>
+          <label class="form-label">Order</label>
+          <select id="filter-order" class="form-control">
+            <option value="desc">Descending (High to Low)</option>
+            <option value="asc">Ascending (Low to High)</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- History Table Card -->
+    <div class="card">
+      <div class="table-responsive">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Timestamp</th>
+              <th>Vehicle Specifications</th>
+              <th>Origin</th>
+              <th>Predicted MPG</th>
+              <th>Efficiency Category</th>
+              <th>Profile Archetype</th>
+            </tr>
+          </thead>
+          <tbody id="history-table-tbody">
+            <tr>
+              <td colspan="7" class="text-center" style="color: var(--text-muted); padding: 2rem;">Loading history records...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Pagination -->
+      <div class="pagination-wrapper">
+        <div style="font-size: 0.85rem; color: var(--text-muted);">
+          Showing <span id="page-records-range" class="font-mono">0-0</span> of <span id="page-total-records" class="font-mono">0</span> predictions
+        </div>
+        <div class="pagination-controls">
+          <button class="btn btn-secondary btn-sm" id="btn-prev-page" onclick="changePage(-1)">← Previous</button>
+          <span style="font-size: 0.85rem; font-weight: 600; padding: 0 0.5rem;" id="page-indicator" class="font-mono">Page 1 of 1</span>
+          <button class="btn btn-secondary btn-sm" id="btn-next-page" onclick="changePage(1)">Next →</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="nav-container" style="justify-content: center;">
+      <p>© 2026 Automobile Efficiency Regressor & Vehicle Class Profiler • MySQL / SQLite Persistence</p>
+    </div>
+  </footer>
+
+  <script src="/static/js/history.js"></script>
+</body>
+</html>
